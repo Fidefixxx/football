@@ -1,9 +1,12 @@
 import { useState } from "react";
+import Liga from "./components/liga";
 
 function App() {
   return (
     <>
-      <div className="bg-blue-300">Hello</div>
+      <div>
+        <Liga />
+      </div>
     </>
   );
 }
