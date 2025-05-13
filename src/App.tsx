@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Liga from "./components/liga";
+import Liga from "./components/Liga";
 
 function App() {
   return (
