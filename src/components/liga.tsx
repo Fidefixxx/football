@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Season from "./Season";
+import Match from "./match";
 
 type Props = {};
 ///https://api.openligadb.de/getmatchdata/{leagueShortcut}/{leagueSeason}
@@ -51,12 +52,13 @@ export default function Liga({}: Props) {
 
   return (
     <div>
-      <h2>Ligen</h2>
-      <div>
+      <h1 className="text-4xl font-medium">Champions League</h1>
+      {/* <div>
         {ligaseasonlist.map((item, index) => (
           <Season key={index} shortcut={item.shortcut} season={item.season} />
         ))}
-      </div>
+      </div> */}
+      <Season shortcut={"cl"} season={"2008"} />
     </div>
   );
 }
