@@ -1,33 +1,47 @@
 import React, { use, useState, useEffect } from "react";
 
 type Props = {
-  text: string;
+  title: string;
 };
 
-export default function Test({ text }: Props) {
-  const [comments, setComments] = useState<[]>([]);
-  const [active, setActive] = useState<boolean>(false);
-  let color = "";
+type user = {
+  username: string;
+};
+
+export default function Test({ title }: Props) {
+  const [users, setUsers] = useState<user[]>([]);
+  const [visible, setVisible] = useState<boolean>(false);
+  const [color, setColor] = useState<string>("");
+
   useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/posts/1/comments")
+    fetch("https://jsonplaceholder.typicode.com/users")
       .then((response) => response.json())
-      .then((data) => setComments(data));
-    console.log(comments);
+      .then((data) => setUsers(data));
   }, []);
+
   useEffect(() => {
-    if (active) {
-      color = "bg-green-200";
-    } else {
-      color = "bg-gray-100";
-    }
-  }, [active]);
+    setColor(
+      visible
+        ? "bg-blue-100 w-1/2 h-1/2 border-2 border-black p-2"
+        : "bg-red-100 w-1/2 h-1/2 border-2 border-black p-2"
+    );
+  }, [visible]);
+  console.log(users);
+
   return (
-    <div className={`${color}`}>
-      <h1>Hallo</h1>
-      {comments.map((comment) => (
-        <p>{comment}</p>
+    <div className={color}>
+      <h1 className="text-2xl font-bold">{title}</h1>
+      {users.map((users) => (
+        <div className="my-3">
+          <p className=""> - {users.username}</p>
+        </div>
       ))}
-      <button onClick={() => setActive(!active)}>Click me</button>
+      <button
+        className="border-2 p-1 bg-gray-400 hover:bg-gray-500"
+        onClick={() => setVisible(!visible)}
+      >
+        TOGGLE COLOR
+      </button>
     </div>
   );
 }

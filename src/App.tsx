@@ -6,7 +6,7 @@ function App() {
   return (
     <>
       <div>
-        <Test text={"Hallo"} />
+        <Test title="HALLO" />
       </div>
     </>
   );
