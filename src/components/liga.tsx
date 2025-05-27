@@ -53,12 +53,12 @@ export default function Liga({}: Props) {
   return (
     <div>
       <h1 className="text-4xl font-medium">Champions League</h1>
-      {/* <div>
+      <div>
         {ligaseasonlist.map((item, index) => (
           <Season key={index} shortcut={item.shortcut} season={item.season} />
         ))}
-      </div> */}
-      <Season shortcut={"cl"} season={"2008"} />
+      </div>
+      {/* <Season shortcut={"cl"} season={"2008"} /> */}
     </div>
   );
 }

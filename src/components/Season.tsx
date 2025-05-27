@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Match from "./match";
+import Match from "./Match";
 
 type MatchResult = {
   resultID: number;
@@ -14,7 +14,8 @@ type MatchResult = {
 type Team = {
   teamId: number;
   teamName: string;
-  iconurl: string;
+  shortName: string;
+  teamIconUrl: string;
 };
 
 type MatchData = {
@@ -60,9 +61,9 @@ export default function Season({ shortcut, season }: Props) {
         Season {season} - {shortcut}
       </div>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-        {/* {matches.map((match, index) => (
+        {matches.map((match, index) => (
           <Match key={index} match={match} index={index} />
-        ))} */}
+        ))}
       </div>
     </div>
   );

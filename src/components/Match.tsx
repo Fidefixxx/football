@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect, use } from "react";
+import Team from "./Team";
 
 type MatchResult = {
   resultID: number;
@@ -26,46 +27,77 @@ type MatchProps = {
     team1: Team;
     team2: Team;
     matchResults: MatchResult[];
+    matchDateTimeUTC: string;
   };
   index: number;
 };
 
 export default function Match({ match, index }: MatchProps) {
-  console.log("Team1:", match.team1);
+  const [score1, setScore1] = useState<number>(0);
+  const [score2, setScore2] = useState<number>(0);
+  const [winner1, setWinner1] = useState<boolean>(false);
+  const [winner2, setWinner2] = useState<boolean>(false);
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleString("de-DE", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+  };
+
+  useEffect(() => {
+    setScore1(
+      match.matchResults.find(
+        (r: MatchResult) => r.resultName === "Endergebnis"
+      )?.pointsTeam1 || 0
+    );
+    setScore2(
+      match.matchResults.find(
+        (r: MatchResult) => r.resultName === "Endergebnis"
+      )?.pointsTeam2 || 0
+    );
+    console.log(match.matchDateTimeUTC);
+  }, []);
+
+  useEffect(() => {
+    if (score1 > score2) {
+      setWinner1(true);
+      setWinner2(false);
+    } else if (score2 > score1) {
+      setWinner1(false);
+      setWinner2(true);
+    } else {
+      setWinner1(true);
+      setWinner2(true);
+    }
+  }, [score1, score2]);
+
   return (
     <div
       key={index}
-      className="p-4 bg-gray-50 rounded hover:bg-gray-100 border"
+      className="w-100 h-max p-4 bg-gray-50 rounded hover:bg-gray-100 border-1"
     >
-      <p className="text-lg font-bold mb-2">{match.group.groupName}</p>
-      <div className="flex items-center justify-between mb-2 border">
-        <div className="flex items-center gap-2 border">
-          <img
-            src={match.team1.teamIconUrl}
-            alt=""
-            className="w-8 h-8 object-contain border"
+      <div className="flex justify-between items-center mb-2">
+        <div className="text-xl font-bold">{match.group.groupName}</div>
+        <div className="text-gray-600">
+          {formatDate(match.matchDateTimeUTC)}
+        </div>
+      </div>
+      <div className="relative flex border-1">
+        <div className="flex-col border-1 w-full">
+          <Team
+            name={match.team1.teamName}
+            icon={match.team1.teamIconUrl}
+            score={score1}
+            winner={winner1}
           />
-          <span>{match.team1.teamName}</span>
-        </div>
-        <div className="flex items-center gap-2 border">
-          <span className="font-bold">
-            {match.matchResults.find(
-              (r: MatchResult) => r.resultName === "Endergebnis"
-            )?.pointsTeam1 || 0}
-          </span>
-          <span>:</span>
-          <span className="font-bold">
-            {match.matchResults.find(
-              (r: MatchResult) => r.resultName === "Endergebnis"
-            )?.pointsTeam2 || 0}
-          </span>
-        </div>
-        <div className="flex items-center gap-2 border">
-          <span>{match.team2.teamName}</span>
-          <img
-            src={match.team2.teamIconUrl}
-            alt=""
-            className="w-8 h-8 object-contain border"
+          <Team
+            name={match.team2.teamName}
+            icon={match.team2.teamIconUrl}
+            score={score2}
+            winner={winner2}
           />
         </div>
       </div>
